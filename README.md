@@ -5,4 +5,4 @@ This is web-app that allows you to approximate Pi with a numerical simulation. C
 
 When enough simulations are finished for your simulation, click "stop" to stop them and read off the final approximation value. You can restart the simulations by re-clicking "Go". Refresh the page to restart the simulations from scratch.
 
-\Pi \pi $\pi$ $\Pi$
+\Pi \pi $\pi$ $\Pi$ pi
