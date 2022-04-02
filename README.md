@@ -12,5 +12,5 @@ Here is an example below:
 To run locally:
 1. Install javascript (node)
 2. Install the `http-server` package using the command `npm install http-server -g`
-3. Run the command `http-server` in the project directory and go to port 8080
+3. Run the command `http-server` in the project directory and go to http://localhost:8080
 4. Enjoy!
