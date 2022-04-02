@@ -33,7 +33,7 @@ function drawPoint(x, y, color = "red") {
     var context = canvas.getContext("2d");
 
     context.beginPath();
-    context.arc(x, y, 2, 0, TWO_PI);
+    context.arc(x, y, 1, 0, TWO_PI);
     context.fillStyle = color;
     context.fill();
 }
@@ -67,7 +67,7 @@ function run() {
 
         button = document.getElementById('button');
         button.innerHTML = "Stop";
-        button.intervalId = setInterval(drawRandomPoint, 0.1);
+        button.intervalId = setInterval(drawRandomPoint, 0.01);
     }
     else {
         console.log("stopping");
