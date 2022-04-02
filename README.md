@@ -8,3 +8,9 @@ When enough simulations are finished for your simulation, click "stop" to stop t
 Here is an example below:
 
 ![image](https://user-images.githubusercontent.com/53578447/161393918-6e04011b-8074-4b48-a4f2-934e18435a75.png)
+
+To run locally:
+1. Install javascript (node)
+2. Install the `http-server` package using the command `npm install http-server -g`
+3. Run the command `http-server` in the project directory and go to port 8080
+4. Enjoy!
