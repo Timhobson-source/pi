@@ -1,5 +1,6 @@
 const TWO_PI = 2 * Math.PI;
 const radiusBuffer = 10;
+const DP = 10;  // decimal place precision for UI
 var running = false;
 var numPoints = 0;
 var numPointsInCircle = 0;
@@ -53,11 +54,11 @@ function drawRandomPoint() {
 
     drawPoint(x, y);
     var resultsBox = document.getElementById('resultsbox');
-    var approx = 4 * numPointsInCircle / numPoints;
+    var approx = (4 * numPointsInCircle / numPoints).toFixed(DP);
     resultsBox.innerHTML =
         "Approximation:<br> " + approx.toString()
-        + "<br>Total Points: " + numPoints.toString()
-        + "<br>Points In Circle: " + numPointsInCircle.toString();
+        + "<br><br>Total Points:<br> " + numPoints.toString()
+        + "<br><br>Points In Circle:<br> " + numPointsInCircle.toString();
 }
 
 function run() {
