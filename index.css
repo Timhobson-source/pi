@@ -10,7 +10,8 @@
 
 .box {
     display: flex;
-    background-color: rgb(46, 221, 122);
+    background: rgb(5, 230, 8);
+    background: linear-gradient(90deg, rgba(5, 230, 8, 0.8216328767835259) 13%, rgba(9, 121, 18, 1) 38%, rgba(2, 204, 48, 1) 100%);
     border-color: rgb(6, 5, 4);
     border-style: dashed;
     padding-top: 20px;
@@ -41,7 +42,6 @@
 .meta {
     display: flex;
     flex-direction: column;
-    /* justify-content: space-around; */
     align-items: flex-start;
     margin: auto;
     width: fit-content;
@@ -66,4 +66,10 @@
     margin: auto;
     /* overflow-x: wrap; */
     width: fit-content;
+}
+
+.chart {
+    border-style: dashed;
+    background-color: aliceblue;
+    margin: auto;
 }

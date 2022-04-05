@@ -1,9 +1,10 @@
 const TWO_PI = 2 * Math.PI;
-const radiusBuffer = 10;
 const DP = 10;  // decimal place precision for UI
 var running = false;
 var numPoints = 0;
 var numPointsInCircle = 0;
+var xValues = [];
+var yValues = [];
 
 
 function clearCanvas(canvas, context) {
@@ -39,7 +40,7 @@ function drawPoint(x, y, color = "red") {
     context.fill();
 }
 
-function drawRandomPoint() {
+function addSimulation() {
     var canvas = document.getElementById("square");
     var x = Math.floor(Math.random() * canvas.width);
     var y = Math.floor(Math.random() * canvas.height);
@@ -52,9 +53,12 @@ function drawRandomPoint() {
         numPointsInCircle++;
     }
 
-    drawPoint(x, y);
     var resultsBox = document.getElementById('resultsbox');
     var approx = (4 * numPointsInCircle / numPoints).toFixed(DP);
+    xValues.push(numPoints);
+    yValues.push(approx)
+    drawPoint(x, y);
+    drawChart(xValues, yValues);
     resultsBox.innerHTML =
         "Approximation:<br> " + approx.toString()
         + "<br><br>Total Points:<br> " + numPoints.toString()
@@ -68,7 +72,7 @@ function run() {
 
         button = document.getElementById('button');
         button.innerHTML = "Stop";
-        button.intervalId = setInterval(drawRandomPoint, 0.01);
+        button.intervalId = setInterval(addSimulation, 0.01);
     }
     else {
         console.log("stopping");
@@ -80,12 +84,26 @@ function run() {
     }
 }
 
+function drawChart(xVals, yVals) {
+    new Chart("myChart", {
+        type: "line",
+        data: {
+            labels: xVals,
+            datasets: [{
+                backgroundColor: "rgba(0,0,0,0)",
+                borderColor: "rgba(0,0,0,1)",
+                data: yVals
+            }]
+        },
+    });
+}
 
 window.onload = function () {
-    button = document.getElementById('button');
+    var button = document.getElementById('button');
     button.innerHTML = "Go";
 
     var resultsBox = document.getElementById('resultsbox');
     resultsBox.innerHTML = "Click \"Go\" to start";
     drawCircle();
+    drawChart(xValues, yValues);
 };
