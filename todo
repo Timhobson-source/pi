@@ -2,3 +2,4 @@
 - feature: chart size auto fit to screen
 - feature: add pi horizontal line to chart for context
 - feature: have chart "zoom in" on latest values
+- tech debt: add tests? (at least learn to be able to property test) - with Junit?

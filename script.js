@@ -42,22 +42,26 @@ function drawPoint(x, y, color = "red") {
 
 function addSimulation() {
     var canvas = document.getElementById("square");
-    var x = Math.floor(Math.random() * canvas.width);
-    var y = Math.floor(Math.random() * canvas.height);
-    var radius = canvas.width / 2;
-    var center_x = canvas.width / 2;
-    var center_y = canvas.height / 2;
+    var resultsBox = document.getElementById('resultsbox');
 
-    numPoints++;
-    if ((x - center_x) ** 2 + (y - center_y) ** 2 <= radius ** 2) {
-        numPointsInCircle++;
+    for (var i = 0; i < 10; i++) {
+        var x = Math.floor(Math.random() * canvas.width);
+        var y = Math.floor(Math.random() * canvas.height);
+        var radius = canvas.width / 2;
+        var center_x = canvas.width / 2;
+        var center_y = canvas.height / 2;
+
+        numPoints++;
+        if ((x - center_x) ** 2 + (y - center_y) ** 2 <= radius ** 2) {
+            numPointsInCircle++;
+        }
+
+        var approx = (4 * numPointsInCircle / numPoints).toFixed(DP);
+        xValues.push(numPoints);
+        yValues.push(approx)
+        drawPoint(x, y);
     }
 
-    var resultsBox = document.getElementById('resultsbox');
-    var approx = (4 * numPointsInCircle / numPoints).toFixed(DP);
-    xValues.push(numPoints);
-    yValues.push(approx)
-    drawPoint(x, y);
     drawChart(xValues, yValues);
     resultsBox.innerHTML =
         "Approximation:<br> " + approx.toString()
@@ -95,8 +99,19 @@ function drawChart(xVals, yVals) {
                 data: yVals
             }]
         },
+        options: {}
     });
 }
+
+
+function handleKeyPress(event) {
+    // if the user presses enter, run the simulation
+    console.log(event.keyCode);
+    if (event.keyCode == 13 | event.keyCode == 32) {
+        run();
+    }
+}
+
 
 window.onload = function () {
     var button = document.getElementById('button');
@@ -106,4 +121,6 @@ window.onload = function () {
     resultsBox.innerHTML = "Click \"Go\" to start";
     drawCircle();
     drawChart(xValues, yValues);
+
+    document.addEventListener('keypress', handleKeyPress);
 };

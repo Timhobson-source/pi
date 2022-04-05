@@ -64,8 +64,9 @@
     border-style: groove;
     padding: 5%;
     margin: auto;
-    /* overflow-x: wrap; */
+    overflow-x: wrap;
     width: fit-content;
+    block-size: fit-content;
 }
 
 .chart {
