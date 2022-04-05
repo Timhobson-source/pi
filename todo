@@ -1,2 +1,4 @@
-- feature: chart size auto fit to screen
 - bug: chart scale/size is weird when simulations occur but fine when stopped
+- feature: chart size auto fit to screen
+- feature: add pi horizontal line to chart for context
+- feature: have chart "zoom in" on latest values
