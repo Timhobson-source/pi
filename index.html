@@ -5,7 +5,53 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script>
+        var horizonalLinePlugin = {
+            afterDraw: function (chartInstance) {
+                var yScale = chartInstance.scales["y-axis-0"];
+                var canvas = chartInstance.chart;
+                var ctx = canvas.ctx;
+                var index;
+                var line;
+                var style;
+
+                if (chartInstance.options.horizontalLine) {
+                    for (index = 0; index < chartInstance.options.horizontalLine.length; index++) {
+                        line = chartInstance.options.horizontalLine[index];
+
+                        if (!line.style) {
+                            style = "rgba(169,169,169, .6)";
+                        } else {
+                            style = line.style;
+                        }
+
+                        if (line.y) {
+                            yValue = yScale.getPixelForValue(line.y);
+                        } else {
+                            yValue = 0;
+                        }
+
+                        ctx.lineWidth = 3;
+
+                        if (yValue) {
+                            ctx.beginPath();
+                            ctx.moveTo(0, yValue);
+                            ctx.lineTo(canvas.width, yValue);
+                            ctx.strokeStyle = style;
+                            ctx.stroke();
+                        }
+
+                        if (line.text) {
+                            ctx.fillStyle = style;
+                            ctx.fillText(line.text, 0, yValue + ctx.lineWidth);
+                        }
+                    }
+                    return;
+                };
+            }
+        };
+        Chart.pluginService.register(horizonalLinePlugin);
     </script>
     <script src="script.js"></script>
     <link rel="stylesheet" href="index.css">
@@ -19,7 +65,7 @@
             <button class="button" type="button" onclick="run();" id="button"></button>
             <div class="resultsbox" id="resultsbox"></div>
         </section>
-        <canvas id="myChart" class="chart" style="max-width: 600px; max-height: 600px;"></canvas>
+        <canvas id="myChart" class="chart"></canvas>
         <canvas id="square" class="square" width="600" height="600" style="border:1px solid #000000;"
             onload="drawCircle();">
         </canvas>

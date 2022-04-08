@@ -6,11 +6,6 @@ var numPointsInCircle = 0;
 var xValues = [];
 var yValues = [];
 
-
-function clearCanvas(canvas, context) {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-}
-
 function drawCircle() {
     var canvas = document.getElementById("square");
     var context = canvas.getContext("2d");
@@ -40,29 +35,38 @@ function drawPoint(x, y, color = "red") {
     context.fill();
 }
 
+function determineAddPointToChart(n) {
+    if (n < 25) {
+        return true;
+    }
+    else {
+        return (n % 15 == 0);
+    }
+}
+
 function addSimulation() {
     var canvas = document.getElementById("square");
     var resultsBox = document.getElementById('resultsbox');
 
-    for (var i = 0; i < 10; i++) {
-        var x = Math.floor(Math.random() * canvas.width);
-        var y = Math.floor(Math.random() * canvas.height);
-        var radius = canvas.width / 2;
-        var center_x = canvas.width / 2;
-        var center_y = canvas.height / 2;
+    var x = Math.floor(Math.random() * canvas.width);
+    var y = Math.floor(Math.random() * canvas.height);
+    var radius = canvas.width / 2;
+    var center_x = canvas.width / 2;
+    var center_y = canvas.height / 2;
 
-        numPoints++;
-        if ((x - center_x) ** 2 + (y - center_y) ** 2 <= radius ** 2) {
-            numPointsInCircle++;
-        }
-
-        var approx = (4 * numPointsInCircle / numPoints).toFixed(DP);
-        xValues.push(numPoints);
-        yValues.push(approx)
-        drawPoint(x, y);
+    numPoints++;
+    if ((x - center_x) ** 2 + (y - center_y) ** 2 <= radius ** 2) {
+        numPointsInCircle++;
     }
 
-    drawChart(xValues, yValues);
+    var approx = (4 * numPointsInCircle / numPoints).toFixed(DP);
+
+    // only plot every ten points
+    drawPoint(x, y);
+
+    if (determineAddPointToChart(numPoints)) {
+        addDataToChart(chart, numPoints, approx);
+    }
     resultsBox.innerHTML =
         "Approximation:<br> " + approx.toString()
         + "<br><br>Total Points:<br> " + numPoints.toString()
@@ -88,25 +92,18 @@ function run() {
     }
 }
 
-function drawChart(xVals, yVals) {
-    new Chart("myChart", {
-        type: "line",
-        data: {
-            labels: xVals,
-            datasets: [{
-                backgroundColor: "rgba(0,0,0,0)",
-                borderColor: "rgba(0,0,0,1)",
-                data: yVals
-            }]
-        },
-        options: {}
+
+function addDataToChart(chart, label, data) {
+    chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
     });
+    chart.update();
 }
 
 
 function handleKeyPress(event) {
-    // if the user presses enter, run the simulation
-    console.log(event.keyCode);
+    // if the user presses enter or space, run/stop the simulation
     if (event.keyCode == 13 | event.keyCode == 32) {
         run();
     }
@@ -120,7 +117,80 @@ window.onload = function () {
     var resultsBox = document.getElementById('resultsbox');
     resultsBox.innerHTML = "Click \"Go\" to start";
     drawCircle();
-    drawChart(xValues, yValues);
+
+    chart = new Chart("myChart", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: "rgba(0,0,0,0)",
+                borderColor: "rgba(0,0,0,1)",
+                data: yValues
+            }]
+        },
+        options: {
+            elements: {
+                point: {
+                    borderWidth: 0,
+                    radius: 0,
+                    backgroundColor: 'rgba(0,0,0,0)'
+                },
+            },
+            // add legend to chart
+            legend: {
+                display: false
+            },
+            title: {
+                display: false,
+            },
+            scales: {
+                xAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Number of Simulations',
+                        fontSize: 20,
+                        color: "black",
+                    },
+                    ticks: {
+                        fontSize: 15,
+                        color: "black",
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Approximation',
+                        fontSize: 20,
+                        color: "black",
+                    },
+                    ticks: {
+                        fontSize: 15,
+                        color: "black",
+                    }
+                }]
+            },
+            plugins: {
+                annotation: {
+                    annotations: [{
+                        type: 'line',
+                        mode: 'horizontal',
+                        scaleID: 'y-axis-1',
+                        value: Math.PI,
+                        borderColor: 'red',
+                        borderWidth: 4,
+                        label: {
+                            enabled: false,
+                            content: 'Test label'
+                        },
+                        position: "top"
+                    }]
+                }
+            }
+        }
+    });
 
     document.addEventListener('keypress', handleKeyPress);
 };
+
