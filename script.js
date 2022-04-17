@@ -60,12 +60,13 @@ function addSimulation() {
     }
 
     var approx = (4 * numPointsInCircle / numPoints).toFixed(DP);
+    error = (Math.PI - approx) ** 2
 
     // only plot every ten points
     drawPoint(x, y);
 
     if (determineAddPointToChart(numPoints)) {
-        addDataToChart(chart, numPoints, approx);
+        addDataToChart(chart, numPoints, error);
     }
     resultsBox.innerHTML =
         "Approximation:<br> " + approx.toString()
@@ -161,7 +162,7 @@ window.onload = function () {
                     display: true,
                     scaleLabel: {
                         display: true,
-                        labelString: 'Approximation',
+                        labelString: 'Squared Error',
                         fontSize: 20,
                         color: "black",
                     },
